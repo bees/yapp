@@ -44,6 +44,10 @@ app.get('*', (req, res) => {
   })
 })
 
+// serve pure static assets
+var staticPath = path.posix.join('/', 'static')
+app.use(staticPath, express.static('./static'))
+
 const port = process.env.NODE_PORT || 3030
 app.listen(port, () => {
   console.log(`Running at http://localhost:${port}`)

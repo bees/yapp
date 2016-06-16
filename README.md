@@ -1,5 +1,12 @@
-If you want to build a Vue app really really fast, try using [vbuild](https://github.com/egoist/vbuild) now, which means no setup for you to start a Vue app.
+#Yet Another Podcast Player 
 
+A simple podcast app built with Vue.js.  Currently this is pre-alpha quality software, with a minimal state of functionality.
+
+## Why?
+
+To my knowledge, the only other open source podcast player with a web interface is gPodder (GPLv3). I am not a big fan of copyleft, and wanted a chance to develop my frontend skills so this seemed like an appropriate project.
+
+Built with [VuePack](https://github.com/egoist/VuePack) by [egoist](https://github.com/egoist)
 # VuePack
 
 [![release](https://img.shields.io/github/release/egoist/vuepack.svg)](https://github.com/egoist/vuepack/releases)

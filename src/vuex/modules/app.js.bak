@@ -1,0 +1,87 @@
+import * as types from '../mutation-types'
+
+const state = {
+  current: {
+    filePath: '',
+    duration: 0,
+    position: 0,
+    playing: false,
+    loaded: false,
+    title: ''
+  },
+  podcastsList: [],
+  loadingNewFeed: false,
+  newFeedFetched: false,
+  newFeedAdded: false,
+  newFeedError: false,
+  newFeedResult: {
+    episodes: [],
+    unheard: [],
+    inProgress: [] //tuple, guid and timestamp
+  }
+}
+
+const mutations = {
+  [types.INCREMENT](state) {
+    state.count++
+  },
+  [types.DECREMENT](state) {
+    state.count--
+  },
+  [types.LOADINGNEWFEED](state, bool_val) {
+    state.loadingNewFeed = bool_val 
+  },
+  [types.NEWFEEDFETCHED](state, bool_val) {
+    state.newFeedFetched = bool_val 
+  },
+  [types.NEWFEEDRESULT](state, result) {
+    state.newFeedResult = result 
+  },
+  [types.NEWFEEDERROR](state, bool_val) {
+    //TODO add error strings
+    state.newFeedERROR =  bool_val
+  },
+  [types.SETUNHEARD](state) {
+    state.newFeedResult.unheard = state.newFeedResult.episodes.map(episode => {
+      return episode.guid
+    })
+  },
+  [types.ADDNEWFEED](state) {
+    //TODO add error strings
+    state.podcastsList.push(state.newFeedResult) 
+    state.newFeedResult = {
+      episodes: [],
+      unheard: [],
+      inProgress: []
+    }
+  },
+  [types.DBFEEDSLOADED](state, feeds) {
+    //TODO add error strings
+    state.podcastsList = feeds
+  },
+  [types.INSTANTPLAY](state, link, guid) {
+    console.log('got here')
+    var podcast = state.podcastsList.filter(podcast => { return podcast.link === link})[0]
+    console.log(podcast)
+    var episode = podcast.episodes.filter(episode => { return episode.guid === guid})[0]
+    console.log(episode)
+    state.current.filePath = episode.enclosure.url
+    state.current.duration = episode.duration
+    state.current.title = episode.title
+  },
+  [types.METADATALOADED](state, loaded, duration) {
+    state.current.loaded = true
+    state.current.duration = duration
+  },
+  [types.TIMEUPDATE](state, time) {
+    state.current.position = time
+  },
+  [types.PLAYPAUSE](state) {
+    state.current.playing = !state.current.playing
+  },
+}
+
+export default {
+  state,
+  mutations
+}
