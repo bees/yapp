@@ -16,7 +16,7 @@
           .stats.extra
             .ui.statistic.mini
               .value
-                | {{ podcast.episodes.length }}
+                | {{ episodesList.length }}
               .label
                 | Episodes
             .ui.statistic.mini
@@ -28,11 +28,11 @@
               
     .ui.container.inverted#episode-list
       .ui.relaxed.divided.list.inverted
-        .item(v-for="episode in podcast.episodes")
+        .item(v-for="episode in podEps")
           .right.floated.content.controls
             button.ui.circular.icon.button.blue(@click="$store.dispatch('ENQUEUE', episode)").tiny
               i.icon.plus
-            button.ui.circular.icon.button.green(@click="$store.dispatch('INSTANTPLAY', podcast.link, episode.guid)").tiny
+            button.ui.circular.icon.button.green(@click="$store.dispatch('INSTANTPLAY', episode.guid)").tiny
               i.icon.play
           .content
             .header
@@ -54,12 +54,10 @@ export default {
   },
   vuex: {
     getters: {
-      playqueue: state => state.app.playqueue,
       podcastsList: state => state.app.podcastsList,
-      current: state => state.app.current
+      episodesList: state => state.app.episodes,
+      current: state => state.app.current,
     },
-    actions: {
-    }
   },
   computed: {
     podcast: function () {
@@ -67,6 +65,9 @@ export default {
       return this.podcastsList.filter(podcast => {
         return podcast.title === podcastName
       })[0]
+    },
+    podEps: function () {
+      return this.episodesList.filter(ep => { return this.podcast.episodes.indexOf(ep.guid) > -1 } )
     },
     hc: function () {
       var color = "#fff"
@@ -85,7 +86,7 @@ export default {
       }
       return color
     }
-  }
+  },
 }
 </script>
 

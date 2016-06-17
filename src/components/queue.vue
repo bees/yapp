@@ -3,10 +3,14 @@
   h3 Queue
   div(v-dragula="colOne" bag="queue").ui.divided.list.relaxed.sortable
     div(v-for="podcast in queue", v-if="queue" v-bind:data-ep="podcast.guid").item.sortable-item
+      .right.floated.content
+        button.ui.circular.icon.button(@click="$store.dispatch('INSTANTPLAY', podcast.guid)").tiny
+          i.icon.play
       .content
         p.header {{ podcast.title }} 
         p.meta
           | {{ podcast.duration.toString().toHHMMSS() }}
+
     div.item(v-if="queue.length === 0").queue-item
       .content
         p.header Your queue is empty, add something!

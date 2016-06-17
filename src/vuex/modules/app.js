@@ -51,27 +51,33 @@ const mutations = {
       return episode.guid
     })
   },
-  [types.ADDNEWFEED](state) {
+  [types.ADDNEWFEED](state, episodes, podcasts) {
     //TODO add error strings
-    let {episodes, ...podcast} = state.newFeedResult
-    podcast.episodes = episodes.map(ep => { return ep.guid })
-    state.podcastsList.push(podcast)
+    state.podcastsList.push(podcasts)
     state.episodes = state.episodes.concat(...episodes)
     state.newFeedResult = {
       episodes: [],
       unheard: [],
       inProgress: []
     }
+    state.newFeedFetched = false
   },
-  [types.DBFEEDSLOADED](state, feeds) {
+  [types.DBFEEDSLOADED](state, episodes, podcasts) {
     //TODO add error strings
-    state.podcastsList = feeds
+    if (podcasts) {
+      state.podcastsList = podcasts
+    }
+    if(episodes) {
+      state.episodes = episodes
+    }
   },
-  [types.INSTANTPLAY](state, link, guid) {
-    state.current.link = link
+  [types.INSTANTPLAY](state, guid) {
     state.current.guid = guid
-    var podcast = state.podcastsList.filter(podcast => { return podcast.link === link})[0]
-    var episode = podcast.episodes.filter(episode => { return episode.guid === guid})[0]
+
+    //TBD a less dumb way to do this, would it make more sense to use a dict?
+    var episode = state.episodes.filter(episode => { return episode.guid === guid})[0]
+    console.log(episode)
+
     state.current.filePath = episode.enclosure.url
     state.current.duration = episode.duration
     state.current.title = episode.title
@@ -90,6 +96,10 @@ const mutations = {
   },
   [types.PLAYPAUSE](state) {
     state.current.playing = !state.current.playing
+  },
+  [types.UPDATEQUEUE](state, queue) {
+    // this is a lazy route, TODO something less mindless
+    state.queue = podcast
   },
   [types.ENQUEUE](state, podcast) {
     state.queue.push(podcast)

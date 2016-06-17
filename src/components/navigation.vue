@@ -52,7 +52,7 @@ div
 </template>
 
 <script>
-  import {incrementAsync, parseFeed, addFeed} from '../vuex/actions'
+  import { parseFeed, addFeed} from '../vuex/actions'
   import * as vs from 'vue-spectre'
   import player from './player'
   import jQuery from 'jquery'
@@ -75,7 +75,6 @@ div
         current: state => state.app.current,
       },
       actions: {
-        incrementAsync,
         parseFeed,
         addFeed
       }

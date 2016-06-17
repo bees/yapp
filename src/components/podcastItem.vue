@@ -21,7 +21,7 @@ export default {
   methods: {
     quickPlay: function (podcast) {
       var guid = podcast.unheard.length ? podcast.unheard[podcast.unheard.length-1] : podcast.episodes[podcast.episodes.length-1] //make better default behavior
-      this.$store.dispatch('INSTANTPLAY', podcast.link, guid)
+      this.$store.dispatch('INSTANTPLAY', guid)
     }
   }
 }

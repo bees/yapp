@@ -1,13 +1,35 @@
 import * as types from './mutation-types'
 import parsePodcast from 'node-podcast-parser'
-//import request from 'request'
 import Vue from 'vue'
 import pouch from 'pouchdb'
+import pouchdbFind from 'pouchdb-find'
+
+pouch.plugin(pouchdbFind)
 
 const db = new pouch('podcasts')
 const remoteCouch = false
 
-export default window.PouchDB = db
+db.createIndex({
+    index: {
+      fields: ['published', 'title', 'duration'],
+      name: 'episode'
+    }
+}).then(res => {
+  console.log('created episode index')
+}).catch(err => {
+  console.log(err)
+})
+
+db.createIndex({
+    index: {
+      fields: ['updated', 'title'],
+      name: 'podcast'
+    }
+}).then(res => {
+  console.log('created podcast index')
+}).catch(err => {
+  console.log(err)
+})
 
 export const parseFeed = ({dispatch}, url) => {
   dispatch(types.LOADINGNEWFEED, true)
@@ -27,6 +49,7 @@ export const parseFeed = ({dispatch}, url) => {
       dispatch(types.LOADINGNEWFEED, false)
     })
   }, response => {
+    // TODO: proxy through a local server and sanitize instead of bypassing cors...
     Vue.http.get('https://crossorigin.me/' + url).then(response => {
       console.log(response)
       if (!response.ok) {
@@ -49,43 +72,51 @@ export const parseFeed = ({dispatch}, url) => {
 }
 
 export const addFeed = ({dispatch, state}) => {
-  //this is probably wrong
+  //optimisticallu creating the unheard list
   dispatch(types.SETUNHEARD)
-  var newFeedObject = state.app.newFeedResult
-  db.put(newFeedObject, newFeedObject.link).then(response => {
-    dispatch(types.ADDNEWFEED)
+
+  let {episodes, ...theRest} = state.app.newFeedResult
+  var newCast = theRest
+
+  newCast['episodes'] = episodes.map(ep => { return ep.guid })
+  newCast['name'] = 'podcast'
+
+  var eps = episodes.map(ep => { 
+    ep._id = ep.enclosure.url 
+    ep.name = "episode"
+    return ep
+  })
+
+  db.put(newCast, newCast.link).then(res => {
+    db.bulkDocs(eps).then(res => {
+      dispatch(types.ADDNEWFEED, newCast, episodes)
+    })
   }).catch(err => {
     console.log(err)
+    //TODO: flash error
   })
 }
 
 export const updateProgress = ({dispatch, state}, time) => {
   dispatch(types.TIMEUPDATE, time)
-//state.current
-//db.put(
-//    db.get('mydoc').then(function(doc) {
-//      return db.put({
-//        _id: 'mydoc',
-//        _rev: doc._rev,
-//        title: "Let's Dance"
-//      })
-//    }).then(function(response) {
-//    }).catch(function (err) {
-//      console.log(err)
-//    })
+}
+
+export const updateQueue = ({dispatch, state}, newQueue) => {
+
 }
 
 export const getFeedsFromDB = ({dispatch}) => {
-  db.allDocs({
-    include_docs: true
-  }).then(response => {
-    var result = response.rows.map(entry => {
-      return entry.doc
+  db.find({
+    selector: {name: {$eq: 'episode'}},
+  }).then(eps => {
+    db.find({
+      selector: {name: {$eq: 'podcast'}},
+    }).then(casts => {
+      dispatch(types.DBFEEDSLOADED, eps.docs, casts.docs)
     })
-    dispatch(types.DBFEEDSLOADED, result)
   }).catch(err => {
     console.log(err)
-    //TODO: dispatch error mutation
+    //TODO: flash error
   })
 }
 

@@ -1,7 +1,7 @@
 <template lang="pug">
 .podlist
   //a(@click="getFeedsFromDB").ui.button.blue test
-  //a(@click="nukeDB").ui.button.red  nuke
+  a(@click="nukeDB").ui.button.red  nuke
   p {{ podcastslist }}
   podcast-item(v-for="podcast in podcastsList", v-bind:podcast="podcast")
 

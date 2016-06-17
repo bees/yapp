@@ -1,52 +1,24 @@
 #Yet Another Podcast Player 
 
-A simple podcast app built with Vue.js.  Currently this is pre-alpha quality software, with a minimal state of functionality.
+A simple podcatcher web app built with Vue.js, MIT licensed.  Currently this is pre-alpha quality software, with a minimal state of functionality. A website will be launched when it is a more complete state
+
 
 ## Why?
 
-To my knowledge, the only other open source podcast player with a web interface is gPodder (GPLv3). I am not a big fan of copyleft, and wanted a chance to develop my frontend skills so this seemed like an appropriate project.
+To my knowledge, there are no open source podcast players with full web interfaces (closest thing I can think of is gPodder's directory). I wanted a chance to develop my frontend skills so this seemed like an appropriate project. If there is enough use/interest, I will work on making desktop and mobile clients (Cordova/Electron clients).
+
+
+## Feedback + Contributing
+
+I am absolutely a novice, this project will likely be riddled with anti-patterns and head scratching code - if I did something stupid, the worst thing you can do is not let me know! You don't have to be nice - I am not my code, all I ask is that you give me something actionable:
+
+'This project is garbage' - I wish I knew why!
+'This project is garbage, and here's why: ...' - Much better!
+'This project is garbage, and here's why: ..., here's a better approach: ...' - Perfect :)
+
+
+PR's are absolutely welcome, unfortunately I don't have any coding standard or style guides for reference, that will change in the near future. If you are interested in collaborating, just let me know!
+
 
 Built with [VuePack](https://github.com/egoist/VuePack) by [egoist](https://github.com/egoist)
-# VuePack
 
-[![release](https://img.shields.io/github/release/egoist/vuepack.svg)](https://github.com/egoist/vuepack/releases)
-![extra](https://img.shields.io/badge/actively%20maintained-yes-ff69b4.svg)
-
-## Technologies
-
-- Vue
-- Webpack
-- Babel 6
-- Vuex
-- Vue-Router
-- Hot reloading components and Vuex mutations
-- PostCSS & cssnext
-- Autoprefixer
-
-## Quick Start
-
-```bash
-$ git clone https://github.com/egoist/vuepack.git 
-$ cd vuepack
-$ npm install
-$ npm run dev
-# open http://localhost:3030
-```
-
-## Usage
-
-|Command|Description|
-|---|---|
-|npm install|Install dependencies|
-|npm run dev|Run webpack and server with hot-reload enabled|
-|npm run build|Build assets for production use, dumped in `./build`|
-
-## Customize the devServer
-
-You can directly modify [scripts/devServer.js](https://github.com/egoist/vuepack/blob/master/scripts/devServer.js) since it simply uses [Express](http://expressjs.com) under the hood. 
-
-Or, in a more recommended way, update the [scripts/wrap.js](https://github.com/egoist/vuepack/blob/master/scripts/wrap.js) instead.
-
-## License
-
-MIT &copy; [EGOIST](https://github.com/egoist)
