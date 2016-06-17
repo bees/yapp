@@ -13,11 +13,39 @@ To my knowledge, there are no open source podcast players with full web interfac
 I am absolutely a novice, this project will likely be riddled with anti-patterns and head scratching code - if I did something stupid, the worst thing you can do is not let me know! You don't have to be nice - I am not my code, all I ask is that you give me something actionable:
 
 'This project is garbage' - I wish I knew why!
+
 'This project is garbage, and here's why: ...' - Much better!
-'This project is garbage, and here's why: ..., here's a better approach: ...' - Perfect :)
+
+'This section is garbage, and here's why: ..., here's a better approach: ...' - Perfect 👌💯🔥
 
 
 PR's are absolutely welcome, unfortunately I don't have any coding standard or style guides for reference, that will change in the near future. If you are interested in collaborating, just let me know!
+
+
+## Roadmap
+
+Currently implementing:
+- Functional player
+    - parse feed ✔︎
+    - play episodes ✔︎
+    - playqueue functional
+    - store position
+- UI for browsing podcasts
+    - views for individual podcasts ✔︎
+    - search functionality
+    - sorting
+    - updates feed
+    - favoriting
+
+Next:
+- remote storage
+    - integrate with a couple of cloud hosts for storing podcasts
+    - account system to pair this with
+
+Eventually:
+- cordova/electron clients
+- optional social features (recommendations, sharing between friends)
+
 
 
 Built with [VuePack](https://github.com/egoist/VuePack) by [egoist](https://github.com/egoist)
